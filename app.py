@@ -9,7 +9,7 @@ if st.button("Submit"):
 
     with st.spinner("Thinking... 🤖"):
         response = requests.post(
-            "http://localhost:8000/ask",
+            "https://ai-study-copilot-paez.onrender.com",
             json={"input": user_input}
         )
 
