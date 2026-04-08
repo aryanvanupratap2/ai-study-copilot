@@ -1,16 +1,12 @@
 from langgraph.graph import StateGraph, END
 
-from nodes.intent import detect_intent
-from nodes.topic import detect_subject_topic
-from nodes.difficulty import detect_difficulty
-from nodes.answer import generate_answer
-from nodes.practice import generate_practice
+from intent import detect_intent
+from topic import detect_subject_topic
+from difficulty import detect_difficulty
+from answer import generate_answer
+from practice import generate_practice
 
-# NEW specialized nodes
-from nodes.answer import generate_answer
-from nodes.practice import generate_practice
-
-# ---- ROUTER FUNCTION ----
+# router function
 def route_by_intent(state):
     intent = state["intent"]
 
@@ -24,7 +20,7 @@ def route_by_intent(state):
         return "explain"
 
 
-# ---- SPECIAL NODES ----
+# conditional nodes
 
 def explain_node(state):
     state["strategy"] = "simple_explanation"
@@ -43,7 +39,7 @@ def exam_node(state):
     return state
 
 
-# ---- BUILD GRAPH ----
+# graph building
 
 def build_graph():
 
@@ -67,7 +63,7 @@ def build_graph():
     builder.add_edge("intent", "topic")
     builder.add_edge("topic", "difficulty")
 
-    # 🔥 conditional routing
+    # conditional routing
     builder.add_conditional_edges(
         "difficulty",
         route_by_intent,
@@ -90,7 +86,7 @@ def build_graph():
     return builder.compile()
 
 
-# ---- RUN FUNCTION ----
+# running the function
 
 graph = build_graph()
 
